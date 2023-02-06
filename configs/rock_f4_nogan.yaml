@@ -1,0 +1,45 @@
+model:
+  base_learning_rate: 4.5e-6
+  target: taming.models.vqgan.VQModel
+  params:
+    embed_dim: 3
+    n_embed: 256
+    ddconfig:
+      attn_type: none
+      double_z: False
+      z_channels: 3
+      resolution: 256
+      in_channels: 3
+      out_ch: 3
+      ch: 128
+      ch_mult: [1,2,4]  # num_down = len(ch_mult)-1
+      num_res_blocks: 2
+      attn_resolutions: []
+      dropout: 0.0
+
+    lossconfig:
+      target: taming.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      params:
+        disc_conditional: False
+        disc_in_channels: 3
+        disc_start: 500001
+        disc_weight: 0.75
+        codebook_weight: 1.0
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 10
+    num_workers: 20
+    train:
+      target: taming.data.tex.TexQuadTrain
+      params:
+        img_path: data/gravel_960.jpg
+        size: 256
+        n_img: 100000
+    validation:
+      target: taming.data.tex.TexQuadValidation
+      params:
+        img_path: data/gravel_960.jpg
+        size: 256
+        n_img: 2000
