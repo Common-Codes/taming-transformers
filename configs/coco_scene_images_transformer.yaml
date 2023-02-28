@@ -17,7 +17,7 @@ model:
     first_stage_config:
       target: taming.models.vqgan.VQModel
       params:
-        ckpt_path: /path/to/coco_epoch117.ckpt  # https://heibox.uni-heidelberg.de/f/78dea9589974474c97c1/
+        ckpt_path: /content/coco.ckpt  # https://heibox.uni-heidelberg.de/f/78dea9589974474c97c1/
         embed_dim: 256
         n_embed: 8192
         ddconfig:
